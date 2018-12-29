@@ -1,10 +1,17 @@
 package net.honux.qna.web;
 
 public class User {
+    private static int guid = 0;
+    private int uid;
     private String email;
     private String name;
     private String password;
     private String password2;
+
+    public User() {
+        guid++;
+        this.uid = guid; 
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -36,6 +43,10 @@ public class User {
 
     public String getPassword2() {
         return password2;
+    }
+
+    public int getUid() {
+        return uid;
     }
 
     @Override
