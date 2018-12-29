@@ -8,11 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class UserController {
 
     @GetMapping("create")
-    public String create(String email, String name, String password, String password2, Model model) {
-        System.out.printf("create page: %s %s %s %s\n", email, name, password, password2);
-        model.addAttribute("email", email);
-        model.addAttribute("name", name);
-        model.addAttribute("password", password);
+    public String create(User user) {
+        System.out.println("create " + user);
         return "create";
     }
 
