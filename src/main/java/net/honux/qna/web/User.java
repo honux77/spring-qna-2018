@@ -13,6 +13,14 @@ public class User {
         this.uid = guid; 
     }
 
+    public User(String email, String name, String password, String password2) {
+        this();
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.password2 = password2;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }

@@ -37,13 +37,13 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>#</th> <th>이메일</th> <th>이름</th> <th>수정하기</th>
+                    <th>순번</th><th>이메일</th> <th>이름</th> <th>수정하기</th>
                 </tr>
                 </thead>
                 <tbody>
                 {{#each users}}
                 <tr>
-                    <th scope="row">{{uid}}</th> <td>{{email}}</td> <td>{{name}}</td> <td><a href="edit?uid={{uid}}" class="btn btn-success" role="button">수정</a></td>
+                    <th scope="row">{{@index}}</th><td>{{email}}</td> <td>{{name}}</td> <td><a href="edit/{{uid}}" class="btn btn-success" role="button">수정</a></td>
                 </tr>
                 {{/each}}
                 </tbody>
