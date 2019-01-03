@@ -19,8 +19,6 @@ public class Step2InitRunner implements CommandLineRunner {
     @Autowired
     private UserController userController;
 
-
-
     @Override
     public void run(String... args) throws Exception {
 
