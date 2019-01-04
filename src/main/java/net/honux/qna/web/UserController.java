@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 public class UserController {
@@ -34,22 +35,20 @@ public class UserController {
 
     @GetMapping("/edit/{uid}")
     public String edit(@PathVariable Long uid, Model model) {
-        User user = userRepository.getOne(uid);
-        if (user == null) {
-            return "redirect:/error.html";
-        } else {
-            model.addAttribute(user);
-            return "edit";
+        User user = null;
+        try {
+            user = userRepository.findById(uid).get();
+        } catch (NoSuchElementException e) {
+            model.addAttribute("errorMessage","해당 사용자를 찾을 수 없습니다.");
+            return "/error";
         }
+        model.addAttribute(user);
+        return "/edit";
     }
 
     @PostMapping("/edit")
-    public String edit(Long uid, String email, String name, String password) {
-        User u = userRepository.getOne(uid);
-        u.setName(name);
-        u.setEmail(email);
-        u.setPassword(password);
-        userRepository.save(u);
+    public String edit(User user) {
+        userRepository.save(user);
         return "redirect:/";
     }
 
