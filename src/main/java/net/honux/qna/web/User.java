@@ -1,25 +1,22 @@
 package net.honux.qna.web;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class User {
-    private static int guid = 0;
-    private int uid;
+    @Id
+    @GeneratedValue
+    private Long uid;
+
+    @Column(nullable=false, length=64)
     private String email;
+    
+    @Column(length=32)
     private String name;
     private String password;
-    private String password2;
-
-    public User() {
-        guid++;
-        this.uid = guid; 
-    }
-
-    public User(String email, String name, String password, String password2) {
-        this();
-        this.email = email;
-        this.name = name;
-        this.password = password;
-        this.password2 = password2;
-    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -31,10 +28,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setPassword2(String password2) {
-        this.password2 = password2;
     }
 
     public String getEmail() {
@@ -49,11 +42,7 @@ public class User {
         return password;
     }
 
-    public String getPassword2() {
-        return password2;
-    }
-
-    public int getUid() {
+    public Long getUid() {
         return uid;
     }
 
