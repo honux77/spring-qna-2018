@@ -54,4 +54,12 @@ public class User {
                 ", password='" + password + '\'' +
                 '}';
     }
+
+    public void update(User newUser) {
+        this.name = newUser.name;
+        this.email = newUser.email;
+        if (newUser.password.length() > 0) {
+            this.password = newUser.password;
+        }
+    }
 }
