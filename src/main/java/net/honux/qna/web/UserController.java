@@ -18,8 +18,16 @@ public class UserController {
 
     //list all members
     @GetMapping("")
-    public String list(Model model) {
+    public String list(Model model, HttpSession session) {
+        if (!HttpSessionUtils.isUserLogin(session)) {
+            return "/users/loginForm";
+        }
         model.addAttribute("users", userRepository.findAll());
+
+        if (HttpSessionUtils.isSessionAdmin(session)) {
+            return "users/admin";
+        }
+
         return "users/list";
     }
 
@@ -48,11 +56,10 @@ public class UserController {
     public String login(String email, String password, HttpSession session) {
         User user = userRepository.findByEmail(email);
         if (!user.getPassword().equals(password)) {
-            //debug
              System.out.printf("Login Fail for user%s: password %s != %s\n", user.getEmail(), user.getPassword(), password);
             return "redirect:/users/loginForm";
         }
-        session.setAttribute("session-user", user);
+        session.setAttribute(HttpSessionUtils.SESSION_USER_KEY, user);
         System.out.printf("Login Success %s", user.getEmail());
         return "redirect:/";
     }
@@ -60,7 +67,7 @@ public class UserController {
     //logout
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.removeAttribute("user");
+        session.removeAttribute(HttpSessionUtils.SESSION_USER_KEY);
         return "redirect:/";
     }
 
@@ -68,35 +75,41 @@ public class UserController {
     // user data update form
     @GetMapping("/{uid}/updateForm")
     public String updateForm(@PathVariable Long uid, Model model, HttpSession session) throws IllegalAccessException {
-        User user = (User) session.getAttribute("session-user");
-        if (user == null) {
+        if (!HttpSessionUtils.isUserLogin(session)) {
             return "redirect:/users/loginForm";
         }
 
-        if (!user.getUid().equals(uid)) {
-            throw new IllegalAccessException("You don't have a right permission to access");
+        User sessionUser = (User) HttpSessionUtils.getSessionUser(session);
+
+        System.out.println(sessionUser.isAdmin());
+
+        if (!sessionUser.getUid().equals(uid) && !sessionUser.isAdmin()) {
+            throw new IllegalAccessException("User don't have right permission to access");
         }
-        model.addAttribute(user);
+        User updateUser = userRepository.findById(uid).get();
+        model.addAttribute(updateUser);
         return "/users/update";
+
+
     }
 
     //update user data
     @PutMapping("{uid}/update")
     public String update(@PathVariable Long uid, User updatedUser, HttpSession session) throws IllegalAccessException {
-        User sessionUser = (User) session.getAttribute("session-user");
-        if (sessionUser == null) {
+        if (!HttpSessionUtils.isUserLogin(session)) {
             return "redirect:/users/loginForm";
-
         }
-        if (!sessionUser.getUid().equals(uid)) {
+
+        User sessionUser = HttpSessionUtils.getSessionUser(session);
+
+        if (!sessionUser.getUid().equals(uid) && !sessionUser.isAdmin()) {
             throw new IllegalAccessException("You don't have a right permission to access");
         }
 
         User user = userRepository.findById(uid).get();
         user.update(updatedUser);
         userRepository.save(user);
-        session.setAttribute("session-user", user);
+        session.setAttribute(HttpSessionUtils.SESSION_USER_KEY, user);
         return "redirect:/users";
     }
-
 }
