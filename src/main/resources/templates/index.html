@@ -1,6 +1,9 @@
 {{>include/header }}
 <div class="container">
     <h1>Honux QnA</h1>
+    {{#user}}
+    <h2>안녕하세요? {{name}} 님!</h2>
+    {{/user}}
     <p> 현재 {{num}} 명의 사용자가 있습니다.</p>
 </div>
 

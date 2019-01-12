@@ -57,6 +57,13 @@ public class UserController {
         return "redirect:/";
     }
 
+    //logout
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:/";
+    }
+
 
     @GetMapping("/{uid}/form")
     public String edit(@PathVariable Long uid, Model model) {
