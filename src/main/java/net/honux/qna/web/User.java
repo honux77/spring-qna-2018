@@ -17,6 +17,7 @@ public class User {
     @Column(length=32)
     private String name;
     private String password;
+    private boolean isAdmin;
 
     public void setEmail(String email) {
         this.email = email;
@@ -44,6 +45,18 @@ public class User {
 
     public Long getUid() {
         return uid;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     @Override

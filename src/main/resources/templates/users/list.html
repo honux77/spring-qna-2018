@@ -6,13 +6,13 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>순번</th><th>이메일</th> <th>이름</th> <th>수정하기</th>
+                    <th>순번</th><th>이메일</th> <th>이름</th> <th>Admin</th>
                 </tr>
                 </thead>
                 <tbody>
                 {{#each users}}
                 <tr>
-                    <th scope="row">{{@index}}</th><td>{{email}}</td> <td>{{name}}</td> <td><a href="/users/{{uid}}/updateForm" class="btn btn-success" role="button">수정</a></td>
+                    <th scope="row">{{@index}}</th><td>{{email}}</td> <td>{{name}}</td> <td>{{isAdmin}}</td>
                 </tr>
                 {{/each}}
                 </tbody>
