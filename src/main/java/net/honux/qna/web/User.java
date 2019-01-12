@@ -11,7 +11,7 @@ public class User {
     @GeneratedValue
     private Long uid;
 
-    @Column(nullable=false, length=64)
+    @Column(nullable=false, length=64, unique = true)
     private String email;
     
     @Column(length=32)
@@ -55,8 +55,12 @@ public class User {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+     public boolean matchUid(Long uid) {
+        return this.uid.equals(uid);
+    }
+
+    public boolean matchPassword(String password) {
+        return this.password.equals(password);
     }
 
     @Override

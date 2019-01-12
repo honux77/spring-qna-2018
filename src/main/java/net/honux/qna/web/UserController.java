@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/users")
@@ -55,7 +54,7 @@ public class UserController {
     @PostMapping("/login")
     public String login(String email, String password, HttpSession session) {
         User user = userRepository.findByEmail(email);
-        if (!user.getPassword().equals(password)) {
+        if (!user.matchPassword(password)) {
              System.out.printf("Login Fail for user%s: password %s != %s\n", user.getEmail(), user.getPassword(), password);
             return "redirect:/users/loginForm";
         }
@@ -83,7 +82,7 @@ public class UserController {
 
         System.out.println(sessionUser.isAdmin());
 
-        if (!sessionUser.getUid().equals(uid) && !sessionUser.isAdmin()) {
+        if (!sessionUser.matchUid(uid) && !sessionUser.isAdmin()) {
             throw new IllegalAccessException("User don't have right permission to access");
         }
         User updateUser = userRepository.findById(uid).get();
@@ -102,7 +101,7 @@ public class UserController {
 
         User sessionUser = HttpSessionUtils.getSessionUser(session);
 
-        if (!sessionUser.getUid().equals(uid) && !sessionUser.isAdmin()) {
+        if (!sessionUser.matchUid(uid) && !sessionUser.isAdmin()) {
             throw new IllegalAccessException("You don't have a right permission to access");
         }
 
