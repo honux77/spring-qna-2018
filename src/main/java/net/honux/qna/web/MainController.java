@@ -7,6 +7,7 @@ import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -21,8 +22,10 @@ public class MainController {
     public String index(Model model, HttpSession session) {
         long num = userRepository.count();
         long qnum = questionRepository.count();
+        List<Question> questions = questionRepository.findAll();
         model.addAttribute("num", num);
         model.addAttribute("qnum", qnum);
+        model.addAttribute("questions", questions);
         return "index";
     }
 }
