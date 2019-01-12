@@ -52,7 +52,7 @@ public class UserController {
              System.out.printf("Login Fail for user%s: password %s != %s\n", user.getEmail(), user.getPassword(), password);
             return "redirect:/users/loginForm";
         }
-        session.setAttribute("user", user);
+        session.setAttribute("session-user", user);
         System.out.printf("Login Success %s", user.getEmail());
         return "redirect:/";
     }
@@ -65,24 +65,37 @@ public class UserController {
     }
 
 
-    @GetMapping("/{uid}/form")
-    public String edit(@PathVariable Long uid, Model model) {
-        User user = null;
-        try {
-            user = userRepository.findById(uid).get();
-        } catch (NoSuchElementException e) {
-            model.addAttribute("errorMessage","해당 사용자를 찾을 수 없습니다.");
-            return "/error";
+    // user data update form
+    @GetMapping("/{uid}/updateForm")
+    public String updateForm(@PathVariable Long uid, Model model, HttpSession session) throws IllegalAccessException {
+        User user = (User) session.getAttribute("session-user");
+        if (user == null) {
+            return "redirect:/users/loginForm";
+        }
+
+        if (!user.getUid().equals(uid)) {
+            throw new IllegalAccessException("You don't have a right permission to access");
         }
         model.addAttribute(user);
         return "/users/update";
     }
 
+    //update user data
     @PutMapping("{uid}/update")
-    public String edit(@PathVariable Long uid, User newUser) {
+    public String update(@PathVariable Long uid, User updatedUser, HttpSession session) throws IllegalAccessException {
+        User sessionUser = (User) session.getAttribute("session-user");
+        if (sessionUser == null) {
+            return "redirect:/users/loginForm";
+
+        }
+        if (!sessionUser.getUid().equals(uid)) {
+            throw new IllegalAccessException("You don't have a right permission to access");
+        }
+
         User user = userRepository.findById(uid).get();
-        user.update(newUser);
+        user.update(updatedUser);
         userRepository.save(user);
+        session.setAttribute("session-user", user);
         return "redirect:/users";
     }
 

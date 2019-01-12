@@ -25,23 +25,23 @@
             </li>
         </ul>
         <ul class="navbar-nav">
-            {{^user}}
+            {{^session-user}}
             <li class="nav-item">
                 <a class="nav-link" href="/users/loginForm">로그인</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/users/form">회원가입</a>
             </li>
-            {{/user}}
+            {{/session-user}}
 
-            {{#user}}
+            {{#session-user}}
             <li class="nav-item">
-                <a class="nav-link" href="/users/{{uid}}/update">개인정보 수정</a>
+                <a class="nav-link" href="/users/{{uid}}/updateForm">개인정보 수정</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/users/logout">로그아웃</a>
             </li>
-            {{/user}}
+            {{/session-user}}
         </ul>
     </div>
 </nav>
