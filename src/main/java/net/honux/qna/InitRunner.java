@@ -22,25 +22,9 @@ public class InitRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (args.length == 0 || !args[0].contains("init")) {
-            System.out.println("DB Init passed..");
-            return;
+        System.out.println("Run Command Line Runner");
+        for(String ss: args) {
+            System.out.println(ss);
         }
-
-        System.out.println("Start creating users..");
-
-        String line = "";
-        File f = new ClassPathResource("user.csv").getFile();
-        BufferedReader br = new BufferedReader(new FileReader(f));
-
-        while((line = br.readLine()) != null) {
-            String[] u = line.split(",");
-            User user = new User();
-            user.setEmail(u[0]);
-            user.setName(u[1]);
-            user.setPassword(u[2]);
-            userController.create(user);
-        }
-        br.close();
     }
 }
