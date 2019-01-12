@@ -14,12 +14,15 @@ public class MainController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private QuestionRepository questionRepository;
+
     @GetMapping("/")
     public String index(Model model, HttpSession session) {
         long num = userRepository.count();
+        long qnum = questionRepository.count();
         model.addAttribute("num", num);
-        User user = (User) session.getAttribute("user");
-        System.out.println(user);
+        model.addAttribute("qnum", qnum);
         return "index";
     }
 }

@@ -4,7 +4,8 @@
     {{#session-user}}
     <h2>안녕하세요? {{name}} 님!</h2>
     {{/session-user}}
-    <p> 현재 {{num}} 명의 사용자가 있습니다.</p>
+    <p> 현재 {{num}} 명의 사용자와 {{qnum}}개의 질문이 있습니다.</p>
+    <a class="btn btn-primary" href="question/form">질문하기</a>
 </div>
 
 {{>include/footer }}
