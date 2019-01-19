@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class Question {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String author;
     private String title;

@@ -1,14 +1,12 @@
 package net.honux.qna.web;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 
 @Entity
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
 
     @Column(nullable=false, length=64, unique = true)
@@ -17,7 +15,6 @@ public class User {
     @Column(length=32)
     private String name;
     private String password;
-    private boolean isAdmin;
 
     public void setEmail(String email) {
         this.email = email;
@@ -47,13 +44,6 @@ public class User {
         return uid;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public boolean getIsAdmin() {
-        return isAdmin;
-    }
 
      public boolean matchUid(Long uid) {
         return this.uid.equals(uid);

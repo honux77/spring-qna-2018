@@ -3,16 +3,16 @@
 <div class="container" id="main">
     <div class="col-md-10 col-md-offset-1">
         <div class="panel panel-default">
-            <table class="table table-hover">
+            <table class="table table-hover table-striped">
                 <thead>
                 <tr>
-                    <th>순번</th><th>이메일</th> <th>이름</th> <th>Admin</th>
+                    <th>순번</th><th>이메일</th> <th>이름</th>
                 </tr>
                 </thead>
                 <tbody>
                 {{#each users}}
                 <tr>
-                    <th scope="row">{{@index}}</th><td>{{email}}</td> <td>{{name}}</td> <td>{{isAdmin}}</td>
+                    <th scope="row">{{@index}}</th><td>{{email}}</td> <td>{{name}}</td>
                 </tr>
                 {{/each}}
                 </tbody>

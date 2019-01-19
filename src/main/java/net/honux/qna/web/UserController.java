@@ -21,12 +21,8 @@ public class UserController {
         if (!HttpSessionUtils.isUserLogin(session)) {
             return "/users/loginForm";
         }
+
         model.addAttribute("users", userRepository.findAll());
-
-        if (HttpSessionUtils.isSessionAdmin(session)) {
-            return "users/admin";
-        }
-
         return "users/list";
     }
 
@@ -80,11 +76,10 @@ public class UserController {
 
         User sessionUser = (User) HttpSessionUtils.getSessionUser(session);
 
-        System.out.println(sessionUser.isAdmin());
-
-        if (!sessionUser.matchUid(uid) && !sessionUser.isAdmin()) {
+        if (!sessionUser.matchUid(uid)) {
             throw new IllegalAccessException("User don't have right permission to access");
         }
+
         User updateUser = userRepository.findById(uid).get();
         model.addAttribute(updateUser);
         return "/users/update";
@@ -101,8 +96,8 @@ public class UserController {
 
         User sessionUser = HttpSessionUtils.getSessionUser(session);
 
-        if (!sessionUser.matchUid(uid) && !sessionUser.isAdmin()) {
-            throw new IllegalAccessException("You don't have a right permission to access");
+        if (!sessionUser.matchUid(uid)) {
+            throw new IllegalAccessException("User don't have right permission to access");
         }
 
         User user = userRepository.findById(uid).get();

@@ -12,8 +12,4 @@ public class HttpSessionUtils {
     public static boolean isUserLogin(HttpSession session) {
         return getSessionUser(session) != null;
     }
-
-    public static boolean isSessionAdmin(HttpSession session) {
-        return isUserLogin(session) && getSessionUser(session).isAdmin();
-    }
 }
