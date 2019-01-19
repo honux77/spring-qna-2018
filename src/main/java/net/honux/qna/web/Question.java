@@ -51,10 +51,6 @@ public class Question {
         return question;
     }
 
-    public LocalDateTime getDateCreated() {
-        return dateCreated;
-    }
-
     public String getFormattedDate() {
         if (dateCreated == null) {
             return "";
