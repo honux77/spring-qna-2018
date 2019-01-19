@@ -47,6 +47,10 @@ public class Question {
         return title;
     }
 
+    public String getText() {
+        return question;
+    }
+
     public LocalDateTime getDateCreated() {
         return dateCreated;
     }
