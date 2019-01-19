@@ -4,6 +4,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 @Entity
@@ -12,18 +14,22 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String author;
+
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_user_author"))
+    private User author;
+
     private String title;
 
     @CreationTimestamp
-    private LocalDate dateCreated;
+    private LocalDateTime dateCreated;
 
     @Column(columnDefinition = "TEXT")
     private String question;
 
     public Question() {}
 
-    public Question(String author, String title, String question) {
+    public Question(User author, String title, String question) {
         this.author = author;
         this.title = title;
         this.question = question;
@@ -33,7 +39,7 @@ public class Question {
         return id;
     }
 
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
@@ -41,7 +47,14 @@ public class Question {
         return title;
     }
 
-    public LocalDate getDateCreated() {
+    public LocalDateTime getDateCreated() {
         return dateCreated;
+    }
+
+    public String getFormattedDate() {
+        if (dateCreated == null) {
+            return "";
+        }
+        return dateCreated.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
     }
 }

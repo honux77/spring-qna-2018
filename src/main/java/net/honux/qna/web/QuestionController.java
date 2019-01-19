@@ -28,8 +28,9 @@ public class QuestionController {
         if(!HttpSessionUtils.isUserLogin(session)) {
             return "/users/loginForm";
         }
-        String name = HttpSessionUtils.getSessionUser(session).getName();
-        Question question = new Question(name, title, text);
+
+        User sessionUser = HttpSessionUtils.getSessionUser(session);
+        Question question = new Question(sessionUser, title, text);
         questionRepository.save(question);
         return "redirect:/";
     }
