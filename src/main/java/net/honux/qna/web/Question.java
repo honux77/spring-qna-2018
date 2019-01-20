@@ -3,10 +3,8 @@ package net.honux.qna.web;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
 
 @Entity
 public class Question {
