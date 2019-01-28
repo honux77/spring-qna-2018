@@ -49,6 +49,10 @@ public class Question {
         return question;
     }
 
+    public String getTextBr() {
+        return question.replace("\r\n", "<br>\n");
+    }
+
     public String getFormattedDate() {
         if (dateCreated == null) {
             return "";
