@@ -25,13 +25,13 @@ public class QuestionController {
     }
 
     @PostMapping("/post")
-    public String create(String title, String text, HttpSession session) {
+    public String create(String title, String contents, HttpSession session) {
         if(!HttpSessionUtils.isUserLogin(session)) {
             return "redirect:/users/loginForm";
         }
 
         User sessionUser = HttpSessionUtils.getSessionUser(session);
-        Question question = new Question(sessionUser, title, text);
+        Question question = new Question(sessionUser, title, contents);
         questionRepository.save(question);
         return "redirect:/";
     }
@@ -44,7 +44,7 @@ public class QuestionController {
         Question question = questionRepository.findById(id).orElseThrow(IllegalAccessException::new);
         model.addAttribute("question", question);
         if (HttpSessionUtils.isSessionUserQuesion(session, question)) {
-            model.addAttribute("owner",question.getAuthor().getUid());
+            model.addAttribute("update",question.getId());
         }
         return "/question/document";
     }
@@ -64,8 +64,22 @@ public class QuestionController {
     }
 
     @PutMapping("/{id}/update")
-    public String update(@PathVariable Long id, Question question, HttpSession session) {
-        System.out.println(question);
+    public String update(@PathVariable Long id, String title, String contents, HttpSession session) throws IllegalAccessException {
+
+        System.out.println(id + title + contents);
+        if (!HttpSessionUtils.isUserLogin(session)) {
+            return "redirect:/users/loginForm";
+        }
+
+        Question question = questionRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        if (!HttpSessionUtils.isSessionUserQuesion(session, question)) {
+            throw new IllegalAccessException("수정권한이 없습니다.");
+        }
+
+
+        question.setTitle(title);
+        question.setContents(contents);
+        questionRepository.save(question);
         return "redirect:/question/" + id;
     }
 }
