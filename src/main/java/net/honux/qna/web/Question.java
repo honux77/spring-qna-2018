@@ -23,14 +23,14 @@ public class Question {
     private LocalDateTime dateCreated;
 
     @Column(columnDefinition = "TEXT")
-    private String question;
+    private String contents;
 
     public Question() {}
 
     public Question(User author, String title, String question) {
         this.author = author;
         this.title = title;
-        this.question = question;
+        this.contents = question;
     }
 
     public Long getId() {
@@ -46,11 +46,11 @@ public class Question {
     }
 
     public String getText() {
-        return question;
+        return contents;
     }
 
     public String getTextBr() {
-        return question.replace("\r\n", "<br>\n");
+        return contents.replace("\r\n", "<br>\n");
     }
 
     public String getFormattedDate() {
@@ -58,5 +58,9 @@ public class Question {
             return "";
         }
         return dateCreated.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
+    }
+
+    public boolean isUserAuthor(User user) {
+        return user.equals(author);
     }
 }

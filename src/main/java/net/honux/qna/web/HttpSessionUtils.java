@@ -12,4 +12,8 @@ public class HttpSessionUtils {
     public static boolean isUserLogin(HttpSession session) {
         return getSessionUser(session) != null;
     }
+
+    public static boolean isSessionUserQuesion(HttpSession session, Question question) {
+        return question.getAuthor().equals(getSessionUser(session));
+    }
 }

@@ -69,4 +69,10 @@ public class User {
             this.password = newUser.password;
         }
     }
+
+    @Override
+    public boolean equals(Object other) {
+        User user = (User) other;
+        return this.uid.equals(user.uid);
+    }
 }
