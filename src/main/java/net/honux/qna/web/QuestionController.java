@@ -65,8 +65,6 @@ public class QuestionController {
 
     @PutMapping("/{id}/update")
     public String update(@PathVariable Long id, String title, String contents, HttpSession session) throws IllegalAccessException {
-
-        System.out.println(id + title + contents);
         if (!HttpSessionUtils.isUserLogin(session)) {
             return "redirect:/users/loginForm";
         }
@@ -81,5 +79,20 @@ public class QuestionController {
         question.setContents(contents);
         questionRepository.save(question);
         return "redirect:/question/" + id;
+    }
+
+    @DeleteMapping("/{id}/delete")
+    public String delete(@PathVariable Long id, HttpSession session) throws IllegalAccessException {
+        if (!HttpSessionUtils.isUserLogin(session)) {
+            return "redirect:/users/loginForm";
+        }
+
+        Question question = questionRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        if (!HttpSessionUtils.isSessionUserQuesion(session, question)) {
+            throw new IllegalAccessException("삭제권한이 없습니다.");
+        }
+
+        questionRepository.delete(question);
+        return "redirect:/";
     }
 }

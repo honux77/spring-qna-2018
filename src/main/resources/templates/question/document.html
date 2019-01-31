@@ -9,11 +9,16 @@
         <div id="content" class="border-bottom" style="margin-bottom: 2rem">{{{contentsBr}}}</div>
     </div>
     {{/question}}
-    <div class="col-md-10 col-md-offset-1">
-    <a class="btn btn-primary" href="/">메인 페이지</a>
+    <div class="col-md-4 col-md-offset-1">
+        <a class="btn btn-primary btn-sm btn-block" href="/">메인 페이지</a>
 
-    {{#update}}
-    <a class="btn btn-primary" href="/question/{{update}}/updateForm">수정하기</a>
+        {{#update}}
+        <a class="btn btn-warning btn-sm btn-block" href="/question/{{update}}/updateForm">수정</a> <br>
+        <form action="/question/{{update}}/delete" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <button class="btn btn-danger btn-sm btn-block" href="/question/{{update}}/delete">삭제</button>
+        </form>
+        </div>
     {{/update}}
     </div>
 </div>
