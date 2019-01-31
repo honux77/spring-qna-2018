@@ -41,12 +41,11 @@ public class QuestionController {
         if (!HttpSessionUtils.isUserLogin(session)) {
             return "redirect:/users/loginForm";
         }
-        Optional<Question> byId = questionRepository.findById(id);
-        if (!byId.isPresent()) {
-            throw new IllegalAccessException("그런 게시물이 없습니다.");
-        }
-        Question question = byId.get();
+        Question question = questionRepository.findById(id).orElseThrow(IllegalAccessException::new);
         model.addAttribute("question", question);
+        if (HttpSessionUtils.isSessionUserQuesion(session, question)) {
+            model.addAttribute("owner",question.getAuthor().getUid());
+        }
         return "/question/document";
     }
 

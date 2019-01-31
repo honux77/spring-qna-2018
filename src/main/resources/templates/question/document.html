@@ -9,7 +9,12 @@
         <div id="content">{{{textBr}}}</div>
     </div>
     {{/question}}
+    <div class="col-md-10 col-md-offset-1">
     <a class="btn btn-primary" href="/">메인 페이지</a>
+    {{#owner}}
+    <a class="btn btn-primary" href="/question/{{owner}}/updateForm">수정하기</a>
+    {{/owner}}
+    </div>
 </div>
 
 {{>include/footer }}
